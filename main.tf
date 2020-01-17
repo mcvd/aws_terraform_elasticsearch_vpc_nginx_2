@@ -28,6 +28,11 @@ data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
 
+data "aws_kms_key" "default" {
+  key_id = "alias/aqua-testrds-eng1"
+}
+
+
 # Security group to access
 resource "aws_security_group" "default" {
   name   = "es-cluster-security-monitor"
@@ -138,6 +143,7 @@ module "ec2_a" {
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   kms_key_name        = "aqua-testrds-eng1"
+  kms_key_id          = data.aws_kms_key.default.arn
 }
 
 module "ec2_b" {
@@ -149,4 +155,5 @@ module "ec2_b" {
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   kms_key_name        = "aqua-testrds-eng1"
+  kms_key_id          = data.aws_kms_key.default.arn
 }

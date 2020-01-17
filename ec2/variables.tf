@@ -18,6 +18,10 @@ variable "es_cluster_address" {
   type = string
 }
 
+variable "kms_key_id" {
+  type = string
+}
+
 variable "amis" {
   type = map
 

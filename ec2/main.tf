@@ -6,6 +6,18 @@ data "template_file" "bootstrap" {
   }
 }
 
+resource "aws_ebs_volume" "default" {
+  availability_zone = "eu-west-1a"
+  size              = 20
+  encrypted = true
+  kms_key_id = var.kms_key_id
+
+  tags = {
+    Name = "vol-${var.instance_name}"
+  }
+}
+
+
 resource "aws_instance" "default" {
   ami                    = var.amis[var.region]
   instance_type          = var.instance_type
