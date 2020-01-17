@@ -30,6 +30,11 @@ variable "amis" {
   }
 }
 
+variable "ami" {
+  type = string
+  default = "ami-0865a830d899b9a76"
+}
+
 variable "instance_type" {
   type    = string
   default = "t2.micro"
