@@ -6,8 +6,8 @@ data "template_file" "bootstrap" {
   }
 }
 
-resource "aws_iam_instance_profile" "default" {
-  name  = "eks-aqua-EKSWorkerNodeInstanceRol-NodeInstaceRole-1UJJU2JFGSK8R"
+data "aws_iam_instance_profile" "default" {
+  name = "eks-aqua-EKSWorkerNodeInstanceRol-NodeInstaceRole-1UJJU2JFGSK8R"
 }
 
 resource "aws_instance" "default" {
@@ -17,7 +17,7 @@ resource "aws_instance" "default" {
   vpc_security_group_ids = var.security_group_ids
   key_name               = var.kms_key_name
   associate_public_ip_address = false
-  iam_instance_profile = join("", aws_iam_instance_profile.default.*.name)
+  iam_instance_profile = join("", data.aws_iam_instance_profile.default.*.name)
 
   user_data = data.template_file.bootstrap.rendered
 
