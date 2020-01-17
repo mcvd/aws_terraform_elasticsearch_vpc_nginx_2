@@ -16,6 +16,11 @@ resource "aws_instance" "default" {
 
   user_data = data.template_file.bootstrap.rendered
 
+  ebs_block_device {
+    device_name = "vol-${var.instance_name}"
+    encrypted = true
+  }
+
   tags = {
     Environment = "TFTest"
     Name        = var.instance_name
