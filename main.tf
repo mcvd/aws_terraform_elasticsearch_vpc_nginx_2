@@ -123,7 +123,7 @@ resource "aws_elasticsearch_domain" "es" {
 # CREATING ALB AND EC2 NGINX REVERSE PROXY INSTANCES
 module "alb" {
   source             = "./alb"
-  security_group_ids = aws_security_group.default.id
+  security_group_ids = list(aws_security_group.default.id)
   subnet_ids         = list(data.aws_subnet.public_a.id, data.aws_subnet.public_b.id)
   vpc_id             = data.aws_vpc.spoke.id
 }
