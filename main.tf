@@ -77,8 +77,8 @@ resource "aws_elasticsearch_domain" "es" {
     # dedicated_master_enabled = true
     # dedicated_master_type    = var.cluster_instance_type
     # instance_count           = "4"
-    instance_count = "2"
-    zone_awareness_enabled   = true
+    instance_count         = "2"
+    zone_awareness_enabled = true
   }
   ebs_options {
     ebs_enabled = true
