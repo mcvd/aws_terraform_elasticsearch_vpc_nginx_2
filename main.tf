@@ -30,7 +30,7 @@ data "aws_caller_identity" "current" {}
 
 # Security group to access
 resource "aws_security_group" "default" {
-  name   = "es_cluster-security-monitor"
+  name   = "es-cluster-security-monitor"
   vpc_id = data.aws_vpc.spoke.id
 
   # HTTP access from anywhere
@@ -126,24 +126,27 @@ module "alb" {
   security_group_ids = list(aws_security_group.default.id)
   subnet_ids         = list(data.aws_subnet.public_a.id, data.aws_subnet.public_b.id)
   vpc_id             = data.aws_vpc.spoke.id
+  name               = "es-alb"
 }
 
 module "ec2_a" {
   source              = "./ec2"
-  instance_name       = "rp-nginx-es-a"
+  instance_name       = "es-nginx-a"
   region              = var.region
   subnet_id           = data.aws_subnet.private_a.id
   security_group_ids  = list(aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  kms_key_name        = "aqua-test-rds-eng1"
 }
 
 module "ec2_b" {
   source              = "./ec2"
-  instance_name       = "rp-nginx-es-b"
+  instance_name       = "es-nginx-b"
   region              = var.region
   subnet_id           = data.aws_subnet.private_b.id
   security_group_ids  = list(aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  kms_key_name        = "aqua-test-rds-eng1"
 }

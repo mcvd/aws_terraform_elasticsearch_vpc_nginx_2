@@ -6,7 +6,7 @@ resource "aws_lb" "default" {
 
   tags = {
     Environment = "TFTest"
-    Name        = "tft-default"
+    Name        = var.name
   }
 }
 
