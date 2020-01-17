@@ -20,7 +20,7 @@ data "aws_subnet" "public_a" {
 }
 
 data "aws_subnet" "public_b" {
-  id = "subnet-02a97bb2144d0004ad"
+  id = "subnet-02a97bb2144d004ad"
 }
 
 # GET REGION AND IDENTITY
