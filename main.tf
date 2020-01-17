@@ -29,7 +29,7 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 data "aws_kms_key" "default" {
-  key_id = "arn:aws:kms:eu-west-1:755065139753:key/5e058be4-cea8-b80c-330f1867e461"
+  key_id = "arn:aws:kms:eu-west-1:755065139753:key/5e058be4-cea8-4438-b80c-330f1867e461"
 }
 
 
