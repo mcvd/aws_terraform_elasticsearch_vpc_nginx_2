@@ -29,7 +29,7 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 data "aws_kms_key" "default" {
-  key_id = "aqua-testrds-eng1"
+  key_id = "aqua-tfstate-bucket-key"
 }
 
 
