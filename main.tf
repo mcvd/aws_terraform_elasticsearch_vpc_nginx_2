@@ -137,7 +137,7 @@ module "ec2_a" {
   security_group_ids  = list(aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
-  kms_key_name        = "aqua-test-rds-eng1"
+  kms_key_name        = "aqua-testrds-eng1"
 }
 
 module "ec2_b" {
@@ -148,5 +148,5 @@ module "ec2_b" {
   security_group_ids  = list(aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
-  kms_key_name        = "aqua-test-rds-eng1"
+  kms_key_name        = "aqua-testrds-eng1"
 }
