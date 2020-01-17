@@ -17,7 +17,7 @@ resource "aws_instance" "default" {
   vpc_security_group_ids = var.security_group_ids
   key_name               = var.kms_key_name
   associate_public_ip_address = false
-  iam_instance_profile = aws_iam_instance_profile.default.*.name
+  iam_instance_profile = join("", aws_iam_instance_profile.default.*.name)
 
   user_data = data.template_file.bootstrap.rendered
 
