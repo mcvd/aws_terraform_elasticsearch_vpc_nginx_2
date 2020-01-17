@@ -1,5 +1,5 @@
 resource "aws_lb" "default" {
-  internal           = false
+  internal           = true
   load_balancer_type = "application"
   security_groups    = var.security_group_ids
   subnets            = var.subnet_ids
