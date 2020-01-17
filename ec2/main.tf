@@ -22,7 +22,7 @@ resource "aws_instance" "default" {
 
   root_block_device {
     volume_type           = "gp2"
-    volume_size           = "10"
+    volume_size           = "30"
     encrypted = true
     kms_key_id = var.kms_key_id
   }
