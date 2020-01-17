@@ -1,6 +1,4 @@
 #!/bin/bash
-yum update -y
-sudo amazon-linux-extras install nginx1
 echo "
   # For more information on configuration, see:
   #   * Official English Documentation: http://nginx.org/en/docs/
@@ -62,5 +60,4 @@ echo "
       }
 }
 " > /etc/nginx/nginx.conf
-systemctl start nginx
-systemctl enable nginx
+systemctl restart nginx

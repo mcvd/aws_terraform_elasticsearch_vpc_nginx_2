@@ -32,7 +32,7 @@ variable "amis" {
 
 variable "ami" {
   type = string
-  default = "ami-0865a830d899b9a76"
+  default = "ami-003c7a2caadbcda1f"
 }
 
 variable "instance_type" {
