@@ -6,18 +6,6 @@ data "template_file" "bootstrap" {
   }
 }
 
-resource "aws_ebs_volume" "default" {
-  availability_zone = "eu-west-1a"
-  size              = 20
-  encrypted = true
-  kms_key_id = var.kms_key_id
-
-  tags = {
-    Name = "vol-${var.instance_name}"
-  }
-}
-
-
 resource "aws_instance" "default" {
   ami                    = var.amis[var.region]
   instance_type          = var.instance_type
@@ -28,9 +16,11 @@ resource "aws_instance" "default" {
 
   user_data = data.template_file.bootstrap.rendered
 
-  ebs_block_device {
-    device_name = "vol-${var.instance_name}"
+  root_block_device {
+    volume_type           = "gp2"
+    volume_size           = "10"
     encrypted = true
+    kms_key_id = var.kms_key_id
   }
 
   tags = {
