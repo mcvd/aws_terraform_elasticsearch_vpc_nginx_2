@@ -133,7 +133,7 @@ module "ec2_a" {
   instance_name       = "rp-nginx-es-a"
   region              = var.region
   subnet_id           = data.aws_subnet.private_a.id
-  security_group_ids  = aws_security_group.default.id
+  security_group_ids  = list(aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
 }
@@ -143,7 +143,7 @@ module "ec2_b" {
   instance_name       = "rp-nginx-es-b"
   region              = var.region
   subnet_id           = data.aws_subnet.private_b.id
-  security_group_ids  = aws_security_group.default.id
+  security_group_ids  = list(aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
 }
