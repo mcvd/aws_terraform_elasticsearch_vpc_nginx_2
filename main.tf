@@ -3,10 +3,17 @@ provider "aws" {
   region  = var.region
 }
 
+# GET REGION AND IDENTITY
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
+# VPC
 data "aws_vpc" "spoke" {
   id = "vpc-0f8852212761af9e8"
 }
 
+# SUBNETS
 data "aws_subnet" "private_a" {
   id = "subnet-08ff0fd88422411a5"
 }
@@ -21,15 +28,6 @@ data "aws_subnet" "public_a" {
 
 data "aws_subnet" "public_b" {
   id = "subnet-02a97bb2144d004ad"
-}
-
-# GET REGION AND IDENTITY
-data "aws_region" "current" {}
-
-data "aws_caller_identity" "current" {}
-
-data "aws_kms_key" "default" {
-  key_id = "arn:aws:kms:eu-west-1:755065139753:key/5e058be4-cea8-4438-b80c-330f1867e461"
 }
 
 
@@ -125,6 +123,11 @@ resource "aws_elasticsearch_domain" "es" {
   }
 }
 
+# KMS Key to encrypt EBS + Access EC2
+data "aws_kms_key" "default" {
+  key_id = "arn:aws:kms:eu-west-1:755065139753:key/5e058be4-cea8-4438-b80c-330f1867e461"
+}
+
 # CREATING ALB AND EC2 NGINX REVERSE PROXY INSTANCES
 module "alb" {
   source             = "./alb"
@@ -157,3 +160,17 @@ module "ec2_b" {
   kms_key_name        = "aqua-testrds-eng1"
   kms_key_id          = data.aws_kms_key.default.arn
 }
+
+# CREATE VPC ENDPOINT
+resource "aws_vpc_endpoint" "elb" {
+  vpc_id            = data.aws_vpc.spoke.id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.elasticloadbalancing"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = list(aws_security_group.default.id)
+
+  subnet_ids = list(data.aws_subnet.private_b.id, data.aws_subnet.private_a.id)
+
+  private_dns_enabled = true
+}
+
