@@ -20,7 +20,7 @@ variable "iam_profile_name" {
 }
 
 variable "ssh_key_name" {
-  default = "aqua-testrds-eng1"
+  default = "kibana-sec-monitor"
 }
 
 variable "certificate_arn" {
