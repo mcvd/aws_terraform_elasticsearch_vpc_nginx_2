@@ -22,12 +22,8 @@ variable "kms_key_id" {
   type = string
 }
 
-variable "amis" {
-  type = map
-
-  default = {
-    "eu-west-1" = "ami-01f14919ba412de34"
-  }
+variable "iam_profile_name" {
+  type = string
 }
 
 variable "ami" {

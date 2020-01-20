@@ -147,6 +147,7 @@ module "ec2_a" {
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   kms_key_name        = "aqua-testrds-eng1"
   kms_key_id          = data.aws_kms_key.default.arn
+  iam_profile_name    = "eks-aqua-EKSWorkerNodeInstanceRol-NodeInstaceRole-1UJJU2JFGSK8R"
 }
 
 module "ec2_b" {
@@ -159,6 +160,7 @@ module "ec2_b" {
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   kms_key_name        = "aqua-testrds-eng1"
   kms_key_id          = data.aws_kms_key.default.arn
+  iam_profile_name    = "eks-aqua-EKSWorkerNodeInstanceRol-NodeInstaceRole-1UJJU2JFGSK8R"
 }
 
 # CREATE VPC ENDPOINT

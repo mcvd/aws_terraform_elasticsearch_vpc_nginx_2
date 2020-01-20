@@ -7,7 +7,7 @@ data "template_file" "bootstrap" {
 }
 
 data "aws_iam_instance_profile" "default" {
-  name = "eks-aqua-EKSWorkerNodeInstanceRol-NodeInstaceRole-1UJJU2JFGSK8R"
+  name = var.iam_profile_name
 }
 
 resource "aws_instance" "default" {
