@@ -38,8 +38,8 @@ echo "
       include /etc/nginx/conf.d/*.conf;
 
       server {
-          listen       443 default_server;
-          listen       [::]:443 default_server;
+          listen       80 default_server;
+          listen       [::]:80 default_server;
           server_name  _;
           root         /usr/share/nginx/html;
 
