@@ -1,10 +1,10 @@
-# data "template_file" "bootstrap" {
-#   template = file("${path.module}/bootstrap.sh")
+data "template_file" "bootstrap" {
+  template = file("${path.module}/bootstrap.sh")
 
-#   vars = {
-#     es_cluster_address = var.es_cluster_address
-#   }
-# }
+  vars = {
+    es_cluster_address = var.es_cluster_address
+  }
+}
 
 data "aws_iam_instance_profile" "default" {
   name = var.iam_profile_name
