@@ -7,6 +7,7 @@ resource "aws_lb" "default" {
   tags = {
     Environment = "TFTest"
     Name        = var.name
+    HostName = "kibana-test"
   }
 }
 
@@ -43,6 +44,7 @@ resource "aws_lb_target_group" "https" {
   tags = {
     Environment = "TFTest"
     Name        = "tft-alb-tg-https"
+    HostName = "kibana-test"
   }
 }
 
