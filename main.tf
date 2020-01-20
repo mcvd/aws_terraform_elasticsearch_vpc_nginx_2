@@ -173,14 +173,14 @@ module "ec2_b" {
 }
 
 # CREATE VPC ENDPOINT
-resource "aws_vpc_endpoint" "default" {
-  vpc_id            = data.aws_vpc.spoke.id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.elasticloadbalancing"
-  vpc_endpoint_type = "Interface"
+# resource "aws_vpc_endpoint" "default" {
+#   vpc_id            = data.aws_vpc.spoke.id
+#   service_name      = "com.amazonaws.${data.aws_region.current.name}.elasticloadbalancing"
+#   vpc_endpoint_type = "Interface"
 
-  security_group_ids = list(data.aws_security_group.default.id)
+#   security_group_ids = list(data.aws_security_group.default.id)
 
-  subnet_ids = list(data.aws_subnet.private_b.id, data.aws_subnet.private_a.id)
+#   subnet_ids = list(data.aws_subnet.private_b.id, data.aws_subnet.private_a.id)
 
-  private_dns_enabled = true
-}
+#   private_dns_enabled = true
+# }
