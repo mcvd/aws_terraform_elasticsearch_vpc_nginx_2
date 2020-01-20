@@ -32,33 +32,41 @@ data "aws_subnet" "public_b" {
 
 
 # Security group to access
-resource "aws_security_group" "default" {
-  name   = "es-cluster-security-monitor"
-  vpc_id = data.aws_vpc.spoke.id
+# resource "aws_security_group" "default" {
+#   name   = "es-cluster-security-monitor"
+#   vpc_id = data.aws_vpc.spoke.id
 
-  # HTTP access from anywhere
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   # HTTP access from anywhere
+#   ingress {
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  # HTTPS access from anywhere
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   # HTTPS access from anywhere
+#   ingress {
+#     from_port   = 443
+#     to_port     = 443
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  # outbound internet access
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   # outbound internet access
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
+
+data "aws_security_group" "default" {
+  id = "sg-0b102a0dc85bd719a"
+}
+
+data "aws_security_group" "edge" {
+  id = "sg-068373d555607f272"
 }
 
 # CREATE THE ES CLUSTER
@@ -94,7 +102,7 @@ resource "aws_elasticsearch_domain" "es" {
   }
   vpc_options {
     subnet_ids         = list(data.aws_subnet.private_a.id, data.aws_subnet.private_b.id)
-    security_group_ids = list(aws_security_group.default.id)
+    security_group_ids = list(data.aws_security_group.default.id)
   }
   access_policies = <<CONFIG
   {
@@ -131,7 +139,7 @@ data "aws_kms_key" "default" {
 # CREATING ALB AND EC2 NGINX REVERSE PROXY INSTANCES
 module "alb" {
   source             = "./alb"
-  security_group_ids = list(aws_security_group.default.id)
+  security_group_ids = list(data.aws_security_group.default.id, data.aws_security_group.edge.id)
   subnet_ids         = list(data.aws_subnet.public_a.id, data.aws_subnet.public_b.id)
   vpc_id             = data.aws_vpc.spoke.id
   name               = "es-alb"
@@ -142,7 +150,7 @@ module "ec2_a" {
   instance_name       = "es-nginx-a"
   region              = var.region
   subnet_id           = data.aws_subnet.private_a.id
-  security_group_ids  = list(aws_security_group.default.id)
+  security_group_ids  = list(data.aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   ssh_key_name        = var.ssh_key_name
@@ -155,7 +163,7 @@ module "ec2_b" {
   instance_name       = "es-nginx-b"
   region              = var.region
   subnet_id           = data.aws_subnet.private_b.id
-  security_group_ids  = list(aws_security_group.default.id)
+  security_group_ids  = list(data.aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   ssh_key_name        = var.ssh_key_name
@@ -169,7 +177,7 @@ resource "aws_vpc_endpoint" "elb" {
   service_name      = "com.amazonaws.${data.aws_region.current.name}.elasticloadbalancing"
   vpc_endpoint_type = "Interface"
 
-  security_group_ids = list(aws_security_group.default.id)
+  security_group_ids = list(data.aws_security_group.default.id)
 
   subnet_ids = list(data.aws_subnet.private_b.id, data.aws_subnet.private_a.id)
 
