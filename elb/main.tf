@@ -16,6 +16,5 @@ resource "aws_elb" "default" {
   tags = {
     Environment = "TFTest"
     Name        = var.name
-    HostName = "kibana-test"
   }
 }
