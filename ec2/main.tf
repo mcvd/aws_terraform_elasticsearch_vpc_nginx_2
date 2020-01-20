@@ -1,5 +1,5 @@
 data "template_file" "bootstrap" {
-  template = file("${path.module}/bootstrap.sh")
+  template = file("${path.module}/bootstrap2.sh")
 
   vars = {
     es_cluster_address = var.es_cluster_address

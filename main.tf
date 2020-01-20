@@ -106,7 +106,7 @@ resource "aws_elasticsearch_domain" "es" {
   }
   vpc_options {
     subnet_ids         = list(data.aws_subnet.private_a.id, data.aws_subnet.private_b.id)
-    security_group_ids = list(data.aws_security_group.default.id)
+    security_group_ids = list(data.aws_security_group.endpoint.id)
   }
   access_policies = <<CONFIG
   {
@@ -157,7 +157,8 @@ module "ec2_a" {
   subnet_id           = data.aws_subnet.private_a.id
   security_group_ids  = list(data.aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
-  es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  # es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  es_cluster_address  = "A"
   ssh_key_name        = var.ssh_key_name
   kms_key_id          = data.aws_kms_key.default.arn
   iam_profile_name    = var.iam_profile_name
@@ -170,7 +171,8 @@ module "ec2_b" {
   subnet_id           = data.aws_subnet.private_b.id
   security_group_ids  = list(data.aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
-  es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  # es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  es_cluster_address  = "B"
   ssh_key_name        = var.ssh_key_name
   kms_key_id          = data.aws_kms_key.default.arn
   iam_profile_name    = var.iam_profile_name
