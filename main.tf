@@ -145,9 +145,9 @@ module "ec2_a" {
   security_group_ids  = list(aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
-  kms_key_name        = "aqua-testrds-eng1"
+  ssh_key_name        = var.ssh_key_name
   kms_key_id          = data.aws_kms_key.default.arn
-  iam_profile_name    = "eks-aqua-EKSWorkerNodeInstanceRol-NodeInstaceRole-1UJJU2JFGSK8R"
+  iam_profile_name    = var.iam_profile_name
 }
 
 module "ec2_b" {
@@ -158,9 +158,9 @@ module "ec2_b" {
   security_group_ids  = list(aws_security_group.default.id)
   lb_target_group_arn = module.alb.lb_target_group_arn
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
-  kms_key_name        = "aqua-testrds-eng1"
+  ssh_key_name        = var.ssh_key_name
   kms_key_id          = data.aws_kms_key.default.arn
-  iam_profile_name    = "eks-aqua-EKSWorkerNodeInstanceRol-NodeInstaceRole-1UJJU2JFGSK8R"
+  iam_profile_name    = var.iam_profile_name
 }
 
 # CREATE VPC ENDPOINT

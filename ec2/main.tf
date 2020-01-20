@@ -15,7 +15,7 @@ resource "aws_instance" "default" {
   instance_type          = var.instance_type
   subnet_id              = var.subnet_id
   vpc_security_group_ids = var.security_group_ids
-  key_name               = var.kms_key_name
+  key_name               = var.ssh_key_name
   associate_public_ip_address = false
   iam_instance_profile = join("", data.aws_iam_instance_profile.default.*.name)
 

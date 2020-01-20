@@ -14,3 +14,11 @@ variable "cluster_instance_type" {
   # default = "i3.large.elasticsearch"
   default = "t2.small.elasticsearch"
 }
+
+variable "iam_profile_name" {
+  default = "aqua-test-rds"
+}
+
+variable "ssh_key_name" {
+  default = "aqua-testrds-eng1"
+}

@@ -41,7 +41,7 @@ variable "instance_name" {
   default = "myinstance"
 }
 
-variable "kms_key_name" {
+variable "ssh_key_name" {
   type    = string
   default = "TFTest"
 }
