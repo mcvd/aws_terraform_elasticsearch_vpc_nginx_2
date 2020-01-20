@@ -46,7 +46,7 @@ echo "
           include /etc/nginx/default.d/*.conf;
 
           location / {
-              # proxy_pass https://${es_cluster_address};
+                proxy_pass https://${es_cluster_address};
           }
 
           error_page 404 /404.html;
@@ -59,7 +59,5 @@ echo "
       }
 }
 " > /etc/nginx/nginx.conf
-
-sudo bash -c 'echo "${es_cluster_address}" > /usr/share/nginx/html/index.html'
 
 systemctl restart nginx

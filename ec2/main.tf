@@ -28,22 +28,9 @@ resource "aws_instance" "default" {
     kms_key_id = var.kms_key_id
   }
 
-  # provisioner "remote-exec" {
-  #   inline =  [
-  #     "echo ${var.instance_name} > /usr/share/nginx/html/index.html",
-  #     "systemctl restart nginx"
-  #   ]
-  # }
-
   tags = {
     Environment = "TFTest"
     Name        = var.instance_name
   }
 
 }
-
-# resource "aws_lb_target_group_attachment" "default" {
-#   target_group_arn = var.lb_target_group_arn
-#   target_id        = aws_instance.default.id
-#   port             = 80
-# }
