@@ -69,6 +69,10 @@ data "aws_security_group" "edge" {
   id = "sg-068373d555607f272"
 }
 
+data "aws_security_group" "endpoint" {
+  id = "sg-02b0db7f2ea2af5f5"
+}
+
 # CREATE THE ES CLUSTER
 resource "aws_elasticsearch_domain" "es" {
   domain_name           = var.domain_name
