@@ -1,10 +1,10 @@
-data "template_file" "bootstrap" {
-  template = file("${path.module}/bootstrap.sh")
+# data "template_file" "bootstrap" {
+#   template = file("${path.module}/bootstrap.sh")
 
-  vars = {
-    es_cluster_address = var.es_cluster_address
-  }
-}
+#   vars = {
+#     es_cluster_address = var.es_cluster_address
+#   }
+# }
 
 data "aws_iam_instance_profile" "default" {
   name = var.iam_profile_name
@@ -19,7 +19,7 @@ resource "aws_instance" "default" {
   associate_public_ip_address = false
   iam_instance_profile = join("", data.aws_iam_instance_profile.default.*.name)
 
-  user_data = data.template_file.bootstrap.rendered
+  # user_data = data.template_file.bootstrap.rendered
 
   root_block_device {
     volume_type           = "gp2"
