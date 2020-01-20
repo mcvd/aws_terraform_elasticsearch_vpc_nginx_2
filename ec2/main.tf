@@ -37,5 +37,5 @@ resource "aws_instance" "default" {
 resource "aws_lb_target_group_attachment" "default" {
   target_group_arn = var.lb_target_group_arn
   target_id        = aws_instance.default.id
-  port             = 80
+  port             = 443
 }
