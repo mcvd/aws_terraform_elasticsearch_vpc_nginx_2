@@ -10,9 +10,9 @@ variable "security_group_ids" {
   type = list(string)
 }
 
-variable "lb_target_group_arn" {
-  type = string
-}
+# variable "lb_target_group_arn" {
+#   type = string
+# }
 
 variable "es_cluster_address" {
   type = string

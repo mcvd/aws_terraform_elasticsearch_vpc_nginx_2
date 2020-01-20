@@ -19,3 +19,7 @@ variable "name" {
 variable "certificate_arn" {
   type = string
 }
+
+variable "instance_ids" {
+  type = list(string)
+}

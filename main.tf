@@ -56,7 +56,7 @@ resource "aws_security_group" "public_to_private" {
   ingress {
     from_port   = -1
     to_port     = -1
-    protocol    = "icpm"
+    protocol    = "icmp"
     cidr_blocks = ["100.68.73.0/26", "100.68.73.64/26"]
   }
 
@@ -148,7 +148,36 @@ data "aws_kms_key" "default" {
   key_id = "arn:aws:kms:eu-west-1:755065139753:key/5e058be4-cea8-4438-b80c-330f1867e461"
 }
 
-# CREATING ALB AND EC2 NGINX REVERSE PROXY INSTANCES
+# CREATING ELB AND EC2 NGINX REVERSE PROXY INSTANCES
+
+module "ec2_a" {
+  source             = "./ec2"
+  instance_name      = "es-nginx-a"
+  region             = var.region
+  subnet_id          = data.aws_subnet.private_a.id
+  security_group_ids = list(aws_security_group.public_to_private.id)
+  # lb_target_group_arn = module.alb.lb_target_group_arn
+  # es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  es_cluster_address = "A"
+  ssh_key_name       = var.ssh_key_name
+  kms_key_id         = data.aws_kms_key.default.arn
+  iam_profile_name   = var.iam_profile_name
+}
+
+module "ec2_b" {
+  source             = "./ec2"
+  instance_name      = "es-nginx-b"
+  region             = var.region
+  subnet_id          = data.aws_subnet.private_b.id
+  security_group_ids = list(aws_security_group.public_to_private.id)
+  # lb_target_group_arn = module.alb.lb_target_group_arn
+  # es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  es_cluster_address = "B"
+  ssh_key_name       = var.ssh_key_name
+  kms_key_id         = data.aws_kms_key.default.arn
+  iam_profile_name   = var.iam_profile_name
+}
+
 module "alb" {
   source             = "./alb"
   security_group_ids = list(data.aws_security_group.default.id, data.aws_security_group.edge.id)
@@ -156,34 +185,7 @@ module "alb" {
   vpc_id             = data.aws_vpc.spoke.id
   name               = "es-alb"
   certificate_arn    = var.certificate_arn
-}
-
-module "ec2_a" {
-  source              = "./ec2"
-  instance_name       = "es-nginx-a"
-  region              = var.region
-  subnet_id           = data.aws_subnet.private_a.id
-  security_group_ids  = list(aws_security_group.public_to_private.id)
-  lb_target_group_arn = module.alb.lb_target_group_arn
-  # es_cluster_address  = aws_elasticsearch_domain.es.endpoint
-  es_cluster_address  = "A"
-  ssh_key_name        = var.ssh_key_name
-  kms_key_id          = data.aws_kms_key.default.arn
-  iam_profile_name    = var.iam_profile_name
-}
-
-module "ec2_b" {
-  source              = "./ec2"
-  instance_name       = "es-nginx-b"
-  region              = var.region
-  subnet_id           = data.aws_subnet.private_b.id
-  security_group_ids  = list(aws_security_group.public_to_private.id)
-  lb_target_group_arn = module.alb.lb_target_group_arn
-  # es_cluster_address  = aws_elasticsearch_domain.es.endpoint
-  es_cluster_address  = "B"
-  ssh_key_name        = var.ssh_key_name
-  kms_key_id          = data.aws_kms_key.default.arn
-  iam_profile_name    = var.iam_profile_name
+  instance_ids       = list(module.ec2_a.instance_id, module.ec2_b.instance_id)
 }
 
 # CREATE VPC ENDPOINT
