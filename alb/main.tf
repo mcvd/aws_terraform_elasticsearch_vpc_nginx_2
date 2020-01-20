@@ -11,7 +11,25 @@ resource "aws_lb" "default" {
   }
 }
 
-# resource "aws_lb_target_group" "default" {
+resource "aws_lb_target_group" "default" {
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    path                = "/_plugin/kibana"
+    matcher             = "200"
+    healthy_threshold   = "2"
+    unhealthy_threshold = "2"
+  }
+
+  tags = {
+    Environment = "TFTest"
+    Name        = "tft-alb-tg"
+  }
+}
+
+# resource "aws_lb_target_group" "https" {
 #   port     = 80
 #   protocol = "HTTP"
 #   vpc_id   = var.vpc_id
@@ -25,28 +43,10 @@ resource "aws_lb" "default" {
 
 #   tags = {
 #     Environment = "TFTest"
-#     Name        = "tft-alb-tg"
+#     Name        = "tft-alb-tg-https"
+#     HostName = "kibana-test"
 #   }
 # }
-
-resource "aws_lb_target_group" "https" {
-  port     = 443
-  protocol = "HTTPS"
-  vpc_id   = var.vpc_id
-
-  health_check {
-    path                = "/_plugin/kibana"
-    matcher             = "200"
-    healthy_threshold   = "2"
-    unhealthy_threshold = "2"
-  }
-
-  tags = {
-    Environment = "TFTest"
-    Name        = "tft-alb-tg-https"
-    HostName = "kibana-test"
-  }
-}
 
 # resource "aws_lb_listener" "default" {
 #   load_balancer_arn = aws_lb.default.arn
@@ -66,7 +66,12 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = var.certificate_arn
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.https.arn
+    type = "redirect"
+
+    redirect {
+      port        = "80"
+      protocol    = "HTTP"
+      status_code = "HTTP_301"
+    }
   }
 }
