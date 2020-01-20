@@ -1,10 +1,10 @@
-data "template_file" "bootstrap" {
-  template = file("${path.module}/bootstrap2.sh")
+# data "template_file" "bootstrap" {
+#   template = file("${path.module}/bootstrap2.sh")
 
-  vars = {
-    es_cluster_address = var.es_cluster_address
-  }
-}
+#   vars = {
+#     es_cluster_address = var.es_cluster_address
+#   }
+# }
 
 data "aws_iam_instance_profile" "default" {
   name = var.iam_profile_name
@@ -28,11 +28,21 @@ resource "aws_instance" "default" {
     kms_key_id = var.kms_key_id
   }
 
+  provisioner "remote-exec" {
+    inline =  [
+      "echo ${var.instance_name} > /usr/share/nginx/html/index.html",
+      "systemctl restart nginx"
+    ]
+  }
+
   tags = {
     Environment = "TFTest"
     Name        = var.instance_name
   }
+
 }
+
+
 
 resource "aws_lb_target_group_attachment" "default" {
   target_group_arn = var.lb_target_group_arn
