@@ -22,3 +22,7 @@ variable "iam_profile_name" {
 variable "ssh_key_name" {
   default = "aqua-testrds-eng1"
 }
+
+variable "certificate_arn" {
+  default = "arn:aws:acm:eu-west-1:755065139753:certificate/9448d876-d2e8-425d-9746-0a083a522ad7"
+}

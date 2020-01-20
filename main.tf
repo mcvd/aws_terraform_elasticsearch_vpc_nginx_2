@@ -143,6 +143,7 @@ module "alb" {
   subnet_ids         = list(data.aws_subnet.public_a.id, data.aws_subnet.public_b.id)
   vpc_id             = data.aws_vpc.spoke.id
   name               = "es-alb"
+  certificate_arn    = var.certificate_arn
 }
 
 module "ec2_a" {

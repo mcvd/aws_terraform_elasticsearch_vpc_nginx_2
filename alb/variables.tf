@@ -15,3 +15,7 @@ variable "vpc_id" {
 variable "name" {
   type = string
 }
+
+variable "certificate_arn" {
+  type = string
+}

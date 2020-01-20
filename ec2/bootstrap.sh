@@ -38,8 +38,8 @@ echo "
       include /etc/nginx/conf.d/*.conf;
 
       server {
-          listen       80 default_server;
-          listen       [::]:80 default_server;
+          listen       443 default_server;
+          listen       [::]:443 default_server;
           server_name  _;
           root         /usr/share/nginx/html;
 
@@ -48,7 +48,7 @@ echo "
 
           location / {
               proxy_pass https://${es_cluster_address};
-    }
+        }
 
           error_page 404 /404.html;
               location = /40x.html {
