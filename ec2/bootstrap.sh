@@ -47,8 +47,8 @@ echo "
           include /etc/nginx/default.d/*.conf;
 
           location / {
-              # proxy_pass https://${es_cluster_address};
-        }
+              proxy_pass https://${es_cluster_address};
+          }
 
           error_page 404 /404.html;
               location = /40x.html {
