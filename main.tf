@@ -10,38 +10,62 @@ data "aws_caller_identity" "current" {}
 
 # VPC
 data "aws_vpc" "spoke" {
-  id = "vpc-0f8852212761af9e8"
+  filter {
+    name = "Name"
+    values = ["Spoke VPC"]
+  }
 }
 
 # SUBNETS
 data "aws_subnet" "private_a" {
-  id = "subnet-08ff0fd88422411a5"
+  filter {
+    name = "Name"
+    values = ["PrivateSubnet01"]
+  }
 }
 
 data "aws_subnet" "private_b" {
-  id = "subnet-0a681899469e77ba5"
+  filter {
+    name = "Name"
+    values = ["PrivateSubnet02"]
+  }
 }
 
 data "aws_subnet" "public_a" {
-  id = "subnet-031363da59d946bb0"
+  filter {
+    name = "Name"
+    values = ["PublicSubnet01"]
+  }
 }
 
 data "aws_subnet" "public_b" {
-  id = "subnet-02a97bb2144d004ad"
+  filter {
+    name = "Name"
+    values = ["PublicSubnet02"]
+  }
 }
 
 
 # Security groups
 data "aws_security_group" "default" {
-  id = "sg-0b102a0dc85bd719a"
+  filter {
+    name = "Name"
+    values = ["default"]
+  }
 }
 
 data "aws_security_group" "edge" {
-  id = "sg-068373d555607f272"
+  filter {
+    name = "Name"
+    values = ["EdgeSecurityGroup"]
+  }
 }
 
 data "aws_security_group" "endpoint" {
-  id = "sg-02b0db7f2ea2af5f5"
+  filter {
+    name = "Name"
+    values = ["endpoint-security-group"]
+  }
 }
 
 # CREATE THE ES CLUSTER
