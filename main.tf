@@ -118,7 +118,7 @@ module "ec2_a" {
   instance_name      = "es-nginx-a"
   region             = var.region
   subnet_id          = data.aws_subnet.private_a.id
-  security_group_ids = list(aws_security_group.default.id)
+  security_group_ids = list(data.aws_security_group.default.id)
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   ssh_key_name       = var.ssh_key_name
   kms_key_id         = data.aws_kms_key.default.arn
@@ -130,7 +130,7 @@ module "ec2_b" {
   instance_name      = "es-nginx-b"
   region             = var.region
   subnet_id          = data.aws_subnet.private_b.id
-  security_group_ids = list(aws_security_group.default.id)
+  security_group_ids = list(data.aws_security_group.default.id)
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   ssh_key_name       = var.ssh_key_name
   kms_key_id         = data.aws_kms_key.default.arn
