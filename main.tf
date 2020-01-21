@@ -11,7 +11,7 @@ data "aws_caller_identity" "current" {}
 # VPC
 data "aws_vpc" "spoke" {
   filter {
-    name = "Name"
+    name   = "tag:Name"
     values = ["Spoke VPC"]
   }
 }
@@ -19,28 +19,28 @@ data "aws_vpc" "spoke" {
 # SUBNETS
 data "aws_subnet" "private_a" {
   filter {
-    name = "Name"
+    name   = "tag:Name"
     values = ["PrivateSubnet01"]
   }
 }
 
 data "aws_subnet" "private_b" {
   filter {
-    name = "Name"
+    name   = "tag:Name"
     values = ["PrivateSubnet02"]
   }
 }
 
 data "aws_subnet" "public_a" {
   filter {
-    name = "Name"
+    name   = "tag:Name"
     values = ["PublicSubnet01"]
   }
 }
 
 data "aws_subnet" "public_b" {
   filter {
-    name = "Name"
+    name   = "tag:Name"
     values = ["PublicSubnet02"]
   }
 }
@@ -49,21 +49,21 @@ data "aws_subnet" "public_b" {
 # Security groups
 data "aws_security_group" "default" {
   filter {
-    name = "Name"
+    name   = "tag:Name"
     values = ["default"]
   }
 }
 
 data "aws_security_group" "edge" {
   filter {
-    name = "Name"
+    name   = "tag:Name"
     values = ["EdgeSecurityGroup"]
   }
 }
 
 data "aws_security_group" "endpoint" {
   filter {
-    name = "Name"
+    name   = "tag:Name"
     values = ["endpoint-security-group"]
   }
 }
@@ -143,7 +143,7 @@ module "ec2_a" {
   region             = var.region
   subnet_id          = data.aws_subnet.private_a.id
   security_group_ids = list(data.aws_security_group.default.id)
-  es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  es_cluster_address = aws_elasticsearch_domain.es.endpoint
   ssh_key_name       = var.ssh_key_name
   kms_key_id         = data.aws_kms_key.default.arn
   iam_profile_name   = var.iam_profile_name
@@ -155,7 +155,7 @@ module "ec2_b" {
   region             = var.region
   subnet_id          = data.aws_subnet.private_b.id
   security_group_ids = list(data.aws_security_group.default.id)
-  es_cluster_address  = aws_elasticsearch_domain.es.endpoint
+  es_cluster_address = aws_elasticsearch_domain.es.endpoint
   ssh_key_name       = var.ssh_key_name
   kms_key_id         = data.aws_kms_key.default.arn
   iam_profile_name   = var.iam_profile_name
