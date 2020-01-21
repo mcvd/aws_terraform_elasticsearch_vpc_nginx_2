@@ -1,5 +1,5 @@
 variable "region" {
-  default = "eu-west-1"
+  default = "eu-west-2"
 }
 
 variable "domain_name" {
