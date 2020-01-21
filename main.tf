@@ -48,24 +48,15 @@ data "aws_subnet" "public_b" {
 
 # Security groups
 data "aws_security_group" "default" {
-  filter {
-    name   = "tag:Name"
-    values = ["default"]
-  }
+  name = "default"
 }
 
 data "aws_security_group" "edge" {
-  filter {
-    name   = "tag:Name"
-    values = ["EdgeSecurityGroup"]
-  }
+  name = "EdgeSecurityGroup"
 }
 
 data "aws_security_group" "endpoint" {
-  filter {
-    name   = "tag:Name"
-    values = ["endpoint-security-group"]
-  }
+  name = "endpoint-security-group"
 }
 
 # CREATE THE ES CLUSTER
