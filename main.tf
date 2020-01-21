@@ -31,44 +31,7 @@ data "aws_subnet" "public_b" {
 }
 
 
-# Security group to access
-resource "aws_security_group" "public_to_private" {
-  name   = "es-cluster-security-monitor"
-  vpc_id = data.aws_vpc.spoke.id
-
-  # HTTP access from anywhere
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["100.68.73.0/26", "100.68.73.64/26"]
-  }
-
-  # HTTPS access from anywhere
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["100.68.73.0/26", "100.68.73.64/26"]
-  }
-
-  # ICMP access from anywhere
-  ingress {
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["100.68.73.0/26", "100.68.73.64/26"]
-  }
-
-  # outbound internet access
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
+# Security groups
 data "aws_security_group" "default" {
   id = "sg-0b102a0dc85bd719a"
 }
@@ -155,7 +118,7 @@ module "ec2_a" {
   instance_name      = "es-nginx-a"
   region             = var.region
   subnet_id          = data.aws_subnet.private_a.id
-  security_group_ids = list(aws_security_group.public_to_private.id)
+  security_group_ids = list(aws_security_group.default.id)
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   ssh_key_name       = var.ssh_key_name
   kms_key_id         = data.aws_kms_key.default.arn
@@ -167,7 +130,7 @@ module "ec2_b" {
   instance_name      = "es-nginx-b"
   region             = var.region
   subnet_id          = data.aws_subnet.private_b.id
-  security_group_ids = list(aws_security_group.public_to_private.id)
+  security_group_ids = list(aws_security_group.default.id)
   es_cluster_address  = aws_elasticsearch_domain.es.endpoint
   ssh_key_name       = var.ssh_key_name
   kms_key_id         = data.aws_kms_key.default.arn
