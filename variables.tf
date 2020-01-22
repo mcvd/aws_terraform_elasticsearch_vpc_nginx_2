@@ -24,9 +24,9 @@ variable "ssh_key_name" {
 }
 
 variable "certificate_domain_name" {
-  default = "*.755065139753.dev.awsbeta.jpmchase.net"
+  default = "aqua-server.eu-west-2.dev.awsbeta.jpmchase.net"
 }
 
 variable "kms_key_name" {
-  default = "aws/ebs"
+  default = "alias/aws/ebs"
 }

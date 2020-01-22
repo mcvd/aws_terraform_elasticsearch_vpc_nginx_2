@@ -2,8 +2,6 @@ data "aws_acm_certificate" "default" {
   domain = var.certificate_domain_name
 }
 
-
-
 resource "aws_elb" "default" {
   internal           = true
   security_groups    = var.security_group_ids
