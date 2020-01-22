@@ -14,7 +14,7 @@ resource "aws_elb" "default" {
     instance_protocol  = "http"
     lb_port            = 443
     lb_protocol        = "https"
-    ssl_certificate_id = data.aws_acm_certificate.default.id
+    ssl_certificate_id = data.aws_acm_certificate.default.arn
   }
 
   tags = {
