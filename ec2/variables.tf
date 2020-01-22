@@ -26,9 +26,9 @@ variable "iam_profile_name" {
   type = string
 }
 
-variable "ami" {
+variable "ami_name" {
   type = string
-  default = "ami-003c7a2caadbcda1f"
+  default = "jpmc-rhel-7-5-dynamo-nginx*"
 }
 
 variable "instance_type" {

@@ -14,8 +14,18 @@ data "aws_kms_alias" "default" {
   name = var.kms_key_name
 }
 
+data "aws_ami" "default" {
+  most_recent      = true
+  owners           = ["self"]
+
+  filter {
+    name   = "name"
+    values = [var.ami_name]
+  }
+}
+
 resource "aws_instance" "default" {
-  ami                    = var.ami
+  ami                    = data.aws_ami.default.image_id
   instance_type          = var.instance_type
   subnet_id              = var.subnet_id
   vpc_security_group_ids = var.security_group_ids
