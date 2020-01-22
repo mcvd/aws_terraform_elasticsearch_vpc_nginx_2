@@ -10,6 +10,10 @@ data "aws_iam_instance_profile" "default" {
   name = var.iam_profile_name
 }
 
+data "aws_kms_alias" "default" {
+  name = var.kms_key_name
+}
+
 resource "aws_instance" "default" {
   ami                    = var.ami
   instance_type          = var.instance_type
@@ -25,7 +29,7 @@ resource "aws_instance" "default" {
     volume_type           = "gp2"
     volume_size           = "30"
     encrypted = true
-    kms_key_id = var.kms_key_id
+    kms_key_id = data.aws_kms_alias.default.target_key_id
   }
 
   tags = {

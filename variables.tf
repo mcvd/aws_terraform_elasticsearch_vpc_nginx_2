@@ -23,6 +23,10 @@ variable "ssh_key_name" {
   default = "kibana-sec-monitor"
 }
 
-variable "certificate_arn" {
-  default = "arn:aws:acm:eu-west-1:755065139753:certificate/9448d876-d2e8-425d-9746-0a083a522ad7"
+variable "certificate_domain_name" {
+  default = "*.755065139753.dev.awsbeta.jpmchase.net"
+}
+
+variable "kms_key_name" {
+  default = "aws/ebs"
 }

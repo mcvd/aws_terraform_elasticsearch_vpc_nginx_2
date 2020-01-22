@@ -121,11 +121,6 @@ resource "aws_elasticsearch_domain" "es" {
   }
 }
 
-# KMS Key to encrypt EBS + Access EC2
-data "aws_kms_key" "default" {
-  key_id = "arn:aws:kms:eu-west-1:755065139753:key/5e058be4-cea8-4438-b80c-330f1867e461"
-}
-
 # CREATING ELB AND EC2 NGINX REVERSE PROXY INSTANCES
 
 module "ec2_a" {
@@ -136,7 +131,7 @@ module "ec2_a" {
   security_group_ids = list(data.aws_security_group.default.id)
   es_cluster_address = aws_elasticsearch_domain.es.endpoint
   ssh_key_name       = var.ssh_key_name
-  kms_key_id         = data.aws_kms_key.default.arn
+  kms_key_name       = var.kms_key_name
   iam_profile_name   = var.iam_profile_name
 }
 
@@ -148,16 +143,16 @@ module "ec2_b" {
   security_group_ids = list(data.aws_security_group.default.id)
   es_cluster_address = aws_elasticsearch_domain.es.endpoint
   ssh_key_name       = var.ssh_key_name
-  kms_key_id         = data.aws_kms_key.default.arn
+  kms_key_name       = var.kms_key_name
   iam_profile_name   = var.iam_profile_name
 }
 
 module "elb" {
-  source             = "./elb"
-  security_group_ids = list(data.aws_security_group.default.id, data.aws_security_group.edge.id)
-  subnet_ids         = list(data.aws_subnet.public_a.id, data.aws_subnet.public_b.id)
-  vpc_id             = data.aws_vpc.spoke.id
-  name               = "es-elb"
-  certificate_arn    = var.certificate_arn
-  instance_ids       = list(module.ec2_a.instance_id, module.ec2_b.instance_id)
+  source                  = "./elb"
+  security_group_ids      = list(data.aws_security_group.default.id, data.aws_security_group.edge.id)
+  subnet_ids              = list(data.aws_subnet.public_a.id, data.aws_subnet.public_b.id)
+  vpc_id                  = data.aws_vpc.spoke.id
+  name                    = "es-elb"
+  certificate_domain_name = var.certificate_domain_name
+  instance_ids            = list(module.ec2_a.instance_id, module.ec2_b.instance_id)
 }

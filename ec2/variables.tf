@@ -18,7 +18,7 @@ variable "es_cluster_address" {
   type = string
 }
 
-variable "kms_key_id" {
+variable "kms_key_name" {
   type = string
 }
 
