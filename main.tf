@@ -130,7 +130,7 @@ module "ec2_a" {
   subnet_id          = data.aws_subnet.private_a.id
   security_group_ids = list(data.aws_security_group.default.id)
   es_cluster_address = aws_elasticsearch_domain.es.endpoint
-  ssh_key_name       = var.ssh_key_name
+  ssh_key_name       = "${var.region}-${var.ssh_key_name}"
   kms_key_name       = var.kms_key_name
   iam_profile_name   = var.iam_profile_name
 }
@@ -142,7 +142,7 @@ module "ec2_b" {
   subnet_id          = data.aws_subnet.private_b.id
   security_group_ids = list(data.aws_security_group.default.id)
   es_cluster_address = aws_elasticsearch_domain.es.endpoint
-  ssh_key_name       = var.ssh_key_name
+  ssh_key_name       = "${var.region}-${var.ssh_key_name}"
   kms_key_name       = var.kms_key_name
   iam_profile_name   = var.iam_profile_name
 }
