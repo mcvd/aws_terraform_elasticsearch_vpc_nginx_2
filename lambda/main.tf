@@ -38,7 +38,7 @@ resource "aws_iam_role_policy_attachment" "s3_es" {
 
 resource "aws_iam_role_policy_attachment" "vpc" {
   role       = aws_iam_role.lambda_role.name
-  policy_arn = aws_iam_policy.aws_lambda_vpc.arn
+  policy_arn = data.aws_iam_policy.aws_lambda_vpc.arn
 }
 
 resource "aws_lambda_function" "lambda" {
