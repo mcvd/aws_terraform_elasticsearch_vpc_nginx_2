@@ -5,7 +5,7 @@ resource "null_resource" "pip" {
   }
 
   provisioner "local-exec" {
-    command = "pip install -r ${path.module}/src/requirements.txt -t ${path.module}/src/lib"
+    command = "pip install -r ${path.module}/src/requirements.txt -t ${path.module}/src/"
   }
 }
 
