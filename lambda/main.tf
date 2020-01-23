@@ -17,15 +17,22 @@ data "archive_file" "lambda_zip" {
   depends_on = [null_resource.pip]
 }
 
-resource "aws_iam_role" "lambda_iam" {
-  name = "lambda_s3_es_full_access"
-  assume_role_policy = file("${path.module}/lambda_policy.json")
+resource "aws_iam_role" "lambda_role" {
+  name = "lambda_s3_es_readonly"
+  assume_role_policy = file("${path.module}/policies/lambda_trust_policy.json")
+}
+
+resource "aws_iam_role_policy" "test_policy" {
+  name = "s3_es_readonly"
+  role = aws_iam_role.lambda_role.id
+
+  policy = file("${path.module}/policies/s3_readonly_es_post_put_only.json")
 }
 
 resource "aws_lambda_function" "lambda" {
   filename         = "${path.module}/lambda.zip"
   function_name    = "danilo_test_s3_to_es"
-  role             = aws_iam_role.lambda_iam.arn
+  role             = aws_iam_role.lambda_role.arn
   handler          = "main.lambda_handler"
   runtime          = "python3.6"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256

@@ -162,6 +162,6 @@ module "lambda" {
 }
 
 module "s3" {
-  source = "./s3"
+  source     = "./s3"
   lambda_arn = module.lambda.arn
 }
