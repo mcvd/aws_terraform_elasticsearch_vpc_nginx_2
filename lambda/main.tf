@@ -23,7 +23,7 @@ resource "aws_iam_role" "lambda_iam" {
 }
 
 resource "aws_lambda_function" "lambda" {
-  filename         = "lambda.zip"
+  filename         = "${path.module}/lambda.zip"
   function_name    = "danilo_test_s3_to_es"
   role             = aws_iam_role.lambda_iam.arn
   handler          = "main.lambda_handler"
