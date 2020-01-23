@@ -157,6 +157,6 @@ module "elb" {
   instance_ids            = list(module.ec2_a.instance_id, module.ec2_b.instance_id)
 }
 
-# module "s3" {
-#   source = "./s3"
-# }
+module "s3" {
+  source = "./s3"
+}
