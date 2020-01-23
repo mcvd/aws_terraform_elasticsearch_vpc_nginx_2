@@ -2,12 +2,12 @@
   "Version": "2012-10-17",
   "Statement": [
       {
+          "Sid": "14ad4024",
           "Effect": "Allow",
-          "Action": "sts:AssumeRole",
+          "Action": ["s3:*", "es:*"],
           "Principal": {
               "Service": "lambda.amazonaws.com"
-          },
-          "Sid": ""
+          }
       }
   ]
 }

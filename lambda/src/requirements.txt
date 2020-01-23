@@ -1,2 +1,2 @@
-requests
-requests_aws4auth
+requests>=1.0.0
+requests_aws4auth>=1.0.0
