@@ -133,6 +133,7 @@ module "ec2_a" {
   ssh_key_name       = "${var.region}-${var.ssh_key_name}"
   kms_key_name       = var.kms_key_name
   iam_profile_name   = var.iam_profile_name
+  instance_type      = "t2.xlarge"
 }
 
 module "ec2_b" {
@@ -145,6 +146,7 @@ module "ec2_b" {
   ssh_key_name       = "${var.region}-${var.ssh_key_name}"
   kms_key_name       = var.kms_key_name
   iam_profile_name   = var.iam_profile_name
+  instance_type      = "t2.xlarge"
 }
 
 module "elb" {
