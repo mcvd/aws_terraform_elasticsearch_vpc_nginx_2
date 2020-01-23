@@ -1,9 +1,8 @@
 resource "aws_s3_bucket" "b" {
-  bucket = "asd"
+  bucket = "20200123-test-bucket"
   acl    = "private"
 
   tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
+    Name        = "20200123-test-bucket"
   }
 }
