@@ -163,9 +163,5 @@ module "lambda" {
 
 module "s3" {
   source = "./s3"
-}
-
-resource "aws_lambda_event_source_mapping" "s3_to_es" {
-  event_source_arn  = module.s3.arn
-  function_name     = module.lambda.arn
+  lambda_arn = module.lambda.arn
 }
