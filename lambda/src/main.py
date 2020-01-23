@@ -1,12 +1,9 @@
 import boto3
 import re
 import requests
-# from requests_aws4auth import AWS4Auth
 
-region = '' # e.g. us-west-1
 service = 'es'
 credentials = boto3.Session().get_credentials()
-# awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
 
 host = '' # the Amazon ES domain, including https://
 index = 'lambda-s3-index'
@@ -32,7 +29,7 @@ def handler(event, context):
 
         # Get, read, and split the file into lines
         obj = s3.get_object(Bucket=bucket, Key=key)
-        body = obj['Body'].read()
+        body = obj['Body'].read().decode('utf-8')
         lines = body.splitlines()
 
         # Match the regular expressions to each line and index the JSON
@@ -42,4 +39,4 @@ def handler(event, context):
             message = message_pattern.search(line).group(1)
 
             document = { "ip": ip, "timestamp": timestamp, "message": message }
-            r = requests.post(url, auth=awsauth, json=document, headers=headers)
+            r = requests.post(url, auth=None, json=document, headers=headers)
