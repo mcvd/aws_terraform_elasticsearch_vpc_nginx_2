@@ -33,7 +33,7 @@ resource "aws_lambda_function" "lambda" {
   filename         = "${path.module}/lambda.zip"
   function_name    = "danilo_test_s3_to_es"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "main.lambda_handler"
+  handler          = "main.handler"
   runtime          = "python3.6"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 }
