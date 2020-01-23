@@ -3,9 +3,6 @@ import re
 import requests
 # from requests_aws4auth import AWS4Auth
 
-base_path = os.path.dirname(__file__)
-sys.path.append(base_path + "/lib")
-
 region = '' # e.g. us-west-1
 service = 'es'
 credentials = boto3.Session().get_credentials()
