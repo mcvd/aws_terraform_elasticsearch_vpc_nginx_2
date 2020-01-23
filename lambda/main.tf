@@ -5,7 +5,7 @@ resource "null_resource" "pip" {
   }
 
   provisioner "local-exec" {
-    command = "pip install -r ${path.module}/src/requirements.txt -t ./src/lib"
+    command = "pip install -r ${path.module}/src/requirements.txt -t ${path.module}/src/lib"
   }
 }
 
@@ -18,12 +18,12 @@ data "archive_file" "lambda_zip" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda_s3_es_readonly"
+  name = "lambda_s3_readonly_es_post_put_only"
   assume_role_policy = file("${path.module}/policies/lambda_trust_policy.json")
 }
 
 resource "aws_iam_role_policy" "test_policy" {
-  name = "s3_es_readonly"
+  name = "s3_readonly_es_post_put_only"
   role = aws_iam_role.lambda_role.id
 
   policy = file("${path.module}/policies/s3_readonly_es_post_put_only.json")
